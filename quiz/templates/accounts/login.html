@@ -1,0 +1,27 @@
+{% extends 'quiz/base.html' %}
+{% load staticfiles %}
+{% block title %}Auth{% endblock %}
+{% block body %}
+<link rel="stylesheet" type="text/css" href="{% static 'quiz/css/login.css' %}">
+<div class="container">
+  <div class="panel panel-success width-fix">
+    <div class="panel-heading">
+      <h2 class="panel-title">Sign In</h2>
+    </div>
+    <div class="panel-body">
+      <form class="form-signin" method="POST">
+        <center>
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <br>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <p>
+            <b> Captcha</b> <img src=""/>
+        </p>
+        </center>
+        <br>
+        <input class="btn btn-lg btn-success btn-block" type="submit" value="Sign In">
+      </form> 
+  </div>
+</div>
+{% endblock %}
