@@ -18,3 +18,28 @@ class registerRequests(models.Model):
 
 	def __str__(self):
 		return self.first_name + " " + self.last_name
+
+class Assessment(models.Model):
+	name=models.CharField(max_length=250, blank=False)
+	date=models.DateTimeField(blank=False)
+	max_marks=models.IntegerField(null=False)
+	no_of_questions=models.IntegerField(null=False)
+	duration=models.IntegerField(null=False)
+	description=models.CharField(max_length=2000, blank=True)
+
+	def __str__(self):
+		return self.name + " " + str(self.date)
+
+
+
+class Question(models.Model):
+	assessment=models.ForeignKey(Assessment, on_delete=models.CASCADE)
+	question=models.CharField(max_length=1000)
+	option_a=models.CharField(max_length=250)
+	option_b=models.CharField(max_length=250)
+	option_c=models.CharField(max_length=250)
+	option_d=models.CharField(max_length=250)
+	solution=models.CharField(max_length=2)
+
+	def __str__(self):
+		return self.question

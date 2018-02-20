@@ -1,0 +1,29 @@
+{% extends 'quiz/base.html' %}
+{% load staticfiles %}
+{% block title%}create{% endblock %}
+{% block body %}
+<div class="container">
+	<center>
+		<h3>{{question.assessment.name}}</h3>
+		<h5>{{question.assessment.date}}</h5>
+	</center>
+	<br>
+	{{ question.question }}
+	<br>
+	<div class="radio">
+		<label><input type="radio" name="option_opt" disabled>{{question.option_a}}</label>
+	</div>
+	<div class="radio">
+		<label><input type="radio" name="option_opt" disabled>{{question.option_b}}</label>
+	</div>
+	<div class="radio">
+		<label><input type="radio" name="option_opt" disabled>{{question.option_c}}</label>
+	</div>
+	<div class="radio">
+		<label><input type="radio" name="option_opt" disabled>{{question.option_d}}</label>
+	</div>
+	<br>
+	<h4><b>{{question.solution}}</b></h4>
+</div>
+
+{% endblock %}

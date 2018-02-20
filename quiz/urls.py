@@ -15,7 +15,13 @@ urlpatterns = [
 
 	#admin side
 	url(r'^register_reqs/$',views.register_reqs, name='register_reqs'),
-	url(r'^approve/(?P<request_no>\d+)$',views.approveRegister, name='approveRegister'), 
-	url(r'^disapprove/(?P<request_no>\d+)$',views.disapproveRegister, name='disapproveRegister'),
+	url(r'^approve/(?P<request_no>\d+)/$',views.approveRegister, name='approveRegister'), 
+	url(r'^disapprove/(?P<request_no>\d+)/$',views.disapproveRegister, name='disapproveRegister'),
+	url(r'^assessment/$',views.assessment, name='assessment'),
+	url(r'^create/$',views.createAssessment, name='createAssessment'),
+	url(r'^view_assessment/(?P<assessment_no>\d+)/$',views.viewAssessment, name='viewAssessment'),
+	url(r'^create_question/(?P<assessment_no>\d+)/$',views.createQuestion, name='createQuestion'),
+	url(r'^view_question/(?P<question_no>\d+)/$',views.viewQuestion, name='viewQuestion'),
+	
 
 ]	
