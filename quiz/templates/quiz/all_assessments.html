@@ -1,0 +1,25 @@
+{% extends 'quiz/base.html' %}
+{% load staticfiles %}
+{% block title%}All Assessments{% endblock %}
+{% block body %}
+<style type="text/css">
+	.panel{
+		height: 100px;
+		vertical-align: middle;
+	}
+</style>
+<div class="container">
+	<h3>Assessments</h3>
+	<hr>
+	{% for assessment in all_assessments %}
+		<div class="col-sm-3">
+			<a href="{% url 'quiz:assessment_detail' assessment.pk%}">
+			<div class="panel panel-default">
+				<h4><center>{{assessment.name}}</center></h4>
+			</div>
+			</a>
+		</div>
+	{% endfor %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'quiz/base.html' %}
+{% load staticfiles %}
+{% block title%}Details{% endblock %}
+{% block body %}
+<style type="text/css">
+	.panel{
+		height: 100px;
+		vertical-align: middle;
+	}
+</style>
+<div class="container">
+	<center>
+		<h3>{{assessment.name}}</h3>
+		<h5>{{assessment.date}}</h5>
+	</center>
+	<br>
+	<div class="row">
+		<div class="col-sm-4"><b>Max Marks:</b>{{assessment.max_marks}}</div>
+		<div class="col-sm-4"><center><b>No. of Questions:</b>{{assessment.no_of_questions}}</center></div>
+		<div class="col-sm-4"><div class="pull-right"><b>Duration:</b>{{assessment.duration}}</div></div>
+	</div>
+	<br>
+	{{ assessment.description }}
+	<br>
+	<center>
+		<a href="{% url 'quiz:assessment_start' assessment.pk %}" class="btn btn-lg btn-success">Start Assessment</a>
+	</center>
+</div>
+
+{% endblock %}

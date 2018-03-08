@@ -1,9 +1,10 @@
 from django.shortcuts import render, get_object_or_404
-from .models import registerRequests, Assessment, Question
+from .models import registerRequests, Assessment, Question, timeRemaining
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.contrib.admin.views.decorators import staff_member_required
+import datetime
 
 # Create User views here.
 
@@ -27,6 +28,43 @@ def register(request):
 		else:
 			return HttpResponse("Password Mismatch")
 	return render(request, 'quiz/register.html', context)
+
+def all_assessments(request):
+	context={
+		'all_assessments':Assessment.objects.all(),
+	}
+	return render(request, 'quiz/all_assessments.html', context)
+
+def assessment_detail(request, assessment_no):
+	assessment=get_object_or_404(Assessment, pk=assessment_no)
+	context={
+		'assessment':assessment,
+	}
+	return render(request, 'quiz/assessment_detail.html',context)
+
+def assessment_start(request, assessment_no):
+	# if request.method=='POST':
+	assessment=get_object_or_404(Assessment, pk=assessment_no)
+	questions=assessment.question_set.all()
+	now=datetime.datetime.now()
+	end=now+datetime.timedelta(minutes=assessment.duration)
+	if not timeRemaining.objects.filter(user=request.user).exists():
+		t=timeRemaining(user=request.user, timeStart=now, timeEnd=end, assessment=assessment)
+		t.save()
+	t=get_object_or_404(timeRemaining, user=request.user, assessment=assessment)
+	now=t.timeStart
+	end=t.timeEnd
+	start_time=int(now.strftime("%s"))*1000
+	end_time=int(end.strftime("%s"))*1000
+
+	context={
+		'assessment':assessment,
+		'start_time':start_time,
+		'end_time':end_time,
+		'questions':questions,
+	}
+	return render(request, 'quiz/assessment_start.html', context)
+
 
 
 # Create Admin views here.

@@ -12,6 +12,9 @@ urlpatterns = [
 
 	#user side
 	url(r'^register/$',views.register, name='register'),
+	url(r'^all_assessments/$', views.all_assessments, name='all_assessments'),
+	url(r'^assessment_detail/(?P<assessment_no>\d+)/$',views.assessment_detail, name='assessment_detail'),
+	url(r'^assessment_detail/(?P<assessment_no>\d+)/start$',views.assessment_start, name='assessment_start'),
 
 	#admin side
 	url(r'^register_reqs/$',views.register_reqs, name='register_reqs'),
