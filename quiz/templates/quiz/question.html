@@ -6,41 +6,56 @@
 	<h3>Add Question</h3><br>
 	<h5>To Assessment : {{assessment.name}}</h5>
 	<hr>
-	<form class="form-horizontal" method="POST" action="">
+	<form class="form-horizontal" method="POST" action=""  enctype="multipart/form-data">
 		{% csrf_token %}
 		<div class="form-group">
 			<label class="control-label col-sm-2">Question:</label>
-			<div class="col-sm-10">
+			<div class="col-sm-8">
 				<input type="text" class="form-control" id="question" name="question" required>
+			</div>
+			<div class="col-sm-2">
+				<input name="question_image" type="file">
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="control-label col-sm-2">A:</label>
-			<div class="col-sm-10">
+			<div class="col-sm-8">
 				<input type="text" class="form-control" id="option_a" name="option_a" required>
+			</div>
+			<div class="col-sm-2">
+				<input name="option_a_image" type="file">
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="control-label col-sm-2">B:</label>
-			<div class="col-sm-10">
+			<div class="col-sm-8">
 				<input type="text" class="form-control" id="option_b" name="option_b" required>
+			</div>
+			<div class="col-sm-2">
+				<input name="option_b_image" type="file">
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="control-label col-sm-2">C:</label>
-			<div class="col-sm-10">
+			<div class="col-sm-8">
 				<input type="text" class="form-control" id="option_c" name="option_c" required>
+			</div>
+			<div class="col-sm-2">
+				<input name="option_c_image" type="file">
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="control-label col-sm-2">D:</label>
-			<div class="col-sm-10">
+			<div class="col-sm-8">
 				<input type="text" class="form-control" id="option_d" name="option_d" required>
+			</div>
+			<div class="col-sm-2">
+				<input name="option_d_image" type="file">
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="control-label col-sm-2">Solution:</label>
-			<div class="col-sm-10">
+			<div class="col-sm-8">
 				<select class="form-control" id="solution" name="solution">
 					<option>A</option>
 					<option>B</option>

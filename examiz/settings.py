@@ -10,6 +10,15 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.8/ref/settings/
 """
 
+
+# for gmail or google apps
+
+EMAIL_USE_TLS = True
+EMAIL_HOST='smtp.gmail.com'
+EMAIL_HOST_USER='mayankfake06@gmail.com'
+EMAIL_HOST_PASSWORD='mtgmtgmtg'
+EMAIL_PORT=587
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
@@ -85,6 +94,11 @@ DATABASES = {
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
+
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LANGUAGE_CODE = 'en-us'
 

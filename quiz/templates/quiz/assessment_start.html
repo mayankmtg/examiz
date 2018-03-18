@@ -25,28 +25,54 @@ p {
 						<div class="container">
 						  <div>
 						        <div><b>Q: {{question.question}}</b></div>
+						        {% if question.question_image == None %}
+						        	<div>*** No Image ***</div>
+						        {% else %}
+						        	<div><img src="{{question.question_image}}" height="200"></div>
+						        {% endif %}
 						    <div class="radio">
 						      <label>
 						        <input type="radio" name="optionsRadios" id="optionsRadios1" value="{{question.option_a}}">
 						        {{question.option_a}}
+
+						        {% if question.option_a_image == None %}
+						        {% else %}
+						        	<div><img src="{{question.option_a_image}}" height="200"></div>
+						        {% endif %}
+
 						      </label>
 						    </div>
 						    <div class="radio">
 						      <label>
 						        <input type="radio" name="optionsRadios" id="optionsRadios2" value="{{question.option_b}}">
 						        {{question.option_b}}
+
+						        {% if question.option_b_image == None %}
+						        {% else %}
+						        	<div><img src="{{question.option_b_image}}" height="200"></div>
+						        {% endif %}
 						      </label>
 						    </div>
 						    <div class="radio">
 						      <label>
 						        <input type="radio" name="optionsRadios" id="optionsRadios3" value="{{question.option_c}}">
 						        {{question.option_c}}
+
+						        {% if question.option_c_image == None %}
+						        {% else %}
+						        	<div><img src="{{question.option_c_image}}" height="200"></div>
+						        {% endif %}
 						      </label>
 						    </div>
 						    <div class="radio">
 						      <label>
 						        <input type="radio" name="optionsRadios" id="optionsRadios4" value="{{question.option_d}}">
 						        {{question.option_d}}
+
+						        {% if question.option_d_image == None %}
+						        {% else %}
+						        	<div><img src="{{question.option_d_image}}" height="200"></div>
+						        {% endif %}
 						      </label>
 						    </div>
 					

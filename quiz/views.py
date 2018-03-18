@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.contrib.admin.views.decorators import staff_member_required
 import datetime
+from .utils import emailSend, saveFile
+
 
 # Create User views here.
 
@@ -48,7 +50,7 @@ def assessment_start(request, assessment_no):
 	questions=assessment.question_set.all()
 	now=datetime.datetime.now()
 	end=now+datetime.timedelta(minutes=assessment.duration)
-	if not timeRemaining.objects.filter(user=request.user).exists():
+	if not timeRemaining.objects.filter(user=request.user, assessment=assessment).exists():
 		t=timeRemaining(user=request.user, timeStart=now, timeEnd=end, assessment=assessment)
 		t.save()
 	t=get_object_or_404(timeRemaining, user=request.user, assessment=assessment)
@@ -82,6 +84,8 @@ def approveRegister(request, request_no):
 	req=get_object_or_404(registerRequests, pk=request_no)
 	userName=req.first_name[0]+req.last_name[0]+str(req.pk)
 	new_user=User.objects.create_user(userName,first_name=req.first_name, last_name=req.last_name, password=req.password, email=req.e_mail)
+	email_message="Your Account has been created:\nUsername = "+userName
+	emailSend("IIITD-Online Quiz 	Account Activation",req.e_mail,email_message)
 	new_user.save()
 	req.delete()
 	return redirect('quiz:register_reqs')
@@ -89,6 +93,8 @@ def approveRegister(request, request_no):
 @staff_member_required
 def disapproveRegister(request, request_no):
 	req=get_object_or_404(registerRequests, pk=request_no)
+	email_message="Your Account request has been Rejected"
+	emailSend("IIITD-Online Quiz Account Activation Failed",req.e_mail,email_message)
 	req.delete()
 	return HttpResponse("Dis Approved")
 
@@ -147,6 +153,27 @@ def createQuestion(request, assessment_no):
 		option_b=request.POST['option_b']
 		option_c=request.POST['option_c']
 		option_d=request.POST['option_d']
+		question_image=None
+		option_a_image=None
+		option_b_image=None
+		option_c_image=None
+		option_d_image=None
+		print(request.FILES)
+		if request.FILES.get('question_image',False):
+			question_image=saveFile(assessment.name, request.FILES['question_image'])
+
+		if request.FILES.get('option_a_image',False):
+			option_a_image=saveFile(assessment.name, request.FILES['option_a_image'])
+
+		if request.FILES.get('option_b_image',False):
+			option_b_image=saveFile(assessment.name, request.FILES['option_b_image'])
+
+		if request.FILES.get('option_c_image',False):
+			option_c_image=saveFile(assessment.name, request.FILES['option_c_image'])
+
+		if request.FILES.get('option_d_image',False):
+			option_d_image=saveFile(assessment.name, request.FILES['option_d_image'])
+
 		solution=request.POST['solution']
 
 		question_object=Question(
@@ -156,6 +183,11 @@ def createQuestion(request, assessment_no):
 			option_b=option_b,
 			option_c=option_c,
 			option_d=option_d,
+			question_image=question_image,
+			option_a_image=option_a_image,
+			option_b_image=option_b_image,
+			option_c_image=option_c_image,
+			option_d_image=option_d_image,
 			solution=solution,
 		)
 		question_object.save()
