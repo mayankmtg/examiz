@@ -9,7 +9,7 @@
 	<div class="panel-body">
 		<form class="form-signin" method="POST">
 			{% csrf_token %}
-			<h2 class="form-signin-heading">Provide your Details</h2>
+			<h2 class="form-signin-heading center">Provide your Details</h2>
 
 			<input type="text" id="first_name"  class="form-control" placeholder="First Name" name="first_name" required autofocus>
 			<br>
@@ -21,7 +21,7 @@
 			<br>
 			<input type="password" id="confirm_password" class="form-control" placeholder="Confirm Password" name="confirm_password" required>
 			<br>
-			<button class="btn btn-lg btn-info btn-block" type="submit">Register</button>
+			<button class="btn btn-lg btn-info btn-block success" type="submit">Register</button>
 		</form>
 	</div>
 </div>

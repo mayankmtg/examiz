@@ -2,92 +2,106 @@
 {% load staticfiles %}
 {% block title%}Start{% endblock %}
 {% block body %}
-<style type="text/css">
-p {
-	position: absolute;
-	right: 10px;
-	margin-right: 10px;
-  	margin-top:10px;
-}
-</style>
-<p>Time Remaining</p>
-<br>
-<p id="demo"></p>
 
-<div class="container">
-	<br>
-	<form class="form-horizontal" method="POST" action="">
-		{% csrf_token %}
-		{% for question in questions %}
-			<div class="panel-group">
-				<div class="panel panel-default">
-					<div class="panel-body">
-						<div class="container">
-						  <div>
-						        <div><b>Q: {{question.question}}</b></div>
-						        {% if question.question_image == None %}
-						        	<div>*** No Image ***</div>
-						        {% else %}
-						        	<div><img src="{{question.question_image}}" height="200"></div>
-						        {% endif %}
-						    <div class="radio">
-						      <label>
-						        <input type="radio" name="optionsRadios" id="optionsRadios1" value="{{question.option_a}}">
-						        {{question.option_a}}
+<link href="{% static 'quiz/css/assessment_base.css' %}" rel="stylesheet">
+<center><h1>{{assessment.name}}</h1></center>
+<div class="row">
+	<div class="col-sm-1">
+		<div class="icon-bar">
+		{% for q in questions %}
+			{% if q.pk == question.pk %}
+		  		<a style="background-color:  #3fada8;" href="{% url 'quiz:assessment_start_question' assessment.pk q.pk %}">{{ forloop.counter }}</a> 
+		  	{% else %}
+		  		<a href="{% url 'quiz:assessment_start_question' assessment.pk q.pk %}">{{ forloop.counter }}</a> 
+		  	{% endif %}
+		{% endfor %}
+		</div>
+	</div>
+	<div class="col-sm-9">
+		<br><br>
+		<div class="container">
+			<br>
+			<form class="form-horizontal" method="POST" action="">
+				{% csrf_token %}
+				<div class="panel-group">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<div class="container">
+							  <div>
+							        <div><b>Q: {{question.question}}</b></div>
+							        {% if question.question_image == None %}
+							        {% else %}
+							        	<div><img src="{{question.question_image}}" height="200"></div>
+							        {% endif %}
+							    <div class="radio">
+							      <label>
+							        <input type="radio" name="optionsRadios" id="optionsRadios1" value="A">
+							        {{question.option_a}}
 
-						        {% if question.option_a_image == None %}
-						        {% else %}
-						        	<div><img src="{{question.option_a_image}}" height="200"></div>
-						        {% endif %}
+							        {% if question.option_a_image == None %}
+							        {% else %}
+							        	<div><img src="{{question.option_a_image}}" height="200"></div>
+							        {% endif %}
 
-						      </label>
-						    </div>
-						    <div class="radio">
-						      <label>
-						        <input type="radio" name="optionsRadios" id="optionsRadios2" value="{{question.option_b}}">
-						        {{question.option_b}}
+							      </label>
+							    </div>
+							    <div class="radio">
+							      <label>
+							        <input type="radio" name="optionsRadios" id="optionsRadios2" value="B">
+							        {{question.option_b}}
 
-						        {% if question.option_b_image == None %}
-						        {% else %}
-						        	<div><img src="{{question.option_b_image}}" height="200"></div>
-						        {% endif %}
-						      </label>
-						    </div>
-						    <div class="radio">
-						      <label>
-						        <input type="radio" name="optionsRadios" id="optionsRadios3" value="{{question.option_c}}">
-						        {{question.option_c}}
+							        {% if question.option_b_image == None %}
+							        {% else %}
+							        	<div><img src="{{question.option_b_image}}" height="200"></div>
+							        {% endif %}
+							      </label>
+							    </div>
+							    <div class="radio">
+							      <label>
+							        <input type="radio" name="optionsRadios" id="optionsRadios3" value="C">
+							        {{question.option_c}}
 
-						        {% if question.option_c_image == None %}
-						        {% else %}
-						        	<div><img src="{{question.option_c_image}}" height="200"></div>
-						        {% endif %}
-						      </label>
-						    </div>
-						    <div class="radio">
-						      <label>
-						        <input type="radio" name="optionsRadios" id="optionsRadios4" value="{{question.option_d}}">
-						        {{question.option_d}}
+							        {% if question.option_c_image == None %}
+							        {% else %}
+							        	<div><img src="{{question.option_c_image}}" height="200"></div>
+							        {% endif %}
+							      </label>
+							    </div>
+							    <div class="radio">
+							      <label>
+							        <input type="radio" name="optionsRadios" id="optionsRadios4" value="D">
+							        {{question.option_d}}
 
-						        {% if question.option_d_image == None %}
-						        {% else %}
-						        	<div><img src="{{question.option_d_image}}" height="200"></div>
-						        {% endif %}
-						      </label>
-						    </div>
-					
-						  </div>
+							        {% if question.option_d_image == None %}
+							        {% else %}
+							        	<div><img src="{{question.option_d_image}}" height="200"></div>
+							        {% endif %}
+							      </label>
+							    </div>
+						
+							  </div>
+							</div>
+
 						</div>
-
 					</div>
 				</div>
-			</div>
-		{% endfor %}
-		<br><br>
-		<center><a href="" class="btn btn-lg btn-danger">Submit</a></center>
-	</form>
+				<br><br>
+				<center><input type="submit" class="btn btn-lg btn-danger success" name="Submit"></center>
+				<br><br>
+				<br><br>
+				<br><br>
+			</form>
 
+		</div>
+	</div>
+	<div class="col-sm-2">
+		<p>Time Remaining</p>
+		<br>
+		<p id="demo"></p>
+		<br><br><br><br>
+	</div>
 </div>
+		
 <script>
 	// Set the date we're counting down to
 	console.log({{start_time}});

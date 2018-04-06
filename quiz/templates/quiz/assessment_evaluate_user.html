@@ -1,0 +1,33 @@
+{% extends 'quiz/base.html' %}
+{% load staticfiles %}
+{% block title %}Evaluation{% endblock %}
+{% block body %}
+<div class="container">
+	<center><h1>User Responses</h1></center>
+	<br>
+	<h4><b>Assessment:</b> {{assessment.name}}</h4>
+	<br>
+	<h4><b>User</b>{{user.pk}}</h4>
+	<br>
+
+	<table class="table table-striped">
+		<tr>
+			<th>Sno</th>
+			<th>Question</th>
+			<th>Real Response</th>
+			<th>User Response</th>
+		</tr>
+		{% for response in responses %}
+		<tr>
+			<td>{{ forloop.counter }}</td>
+			<td>{{response.question}}</td>
+			<td>{{response.question.solution}}</td>
+			<td>{{response.response}}</td>
+		</tr>
+		{% endfor %}
+	</table>
+	<center><h1>
+		{{percent}}%
+	</h1></center>
+</div>
+{% endblock %}

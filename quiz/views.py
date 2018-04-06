@@ -1,18 +1,32 @@
 from django.shortcuts import render, get_object_or_404
-from .models import registerRequests, Assessment, Question, timeRemaining
+from .models import registerRequests, Assessment, Question, timeRemaining, Response
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.contrib.admin.views.decorators import staff_member_required
 import datetime
+from django.utils import timezone
 from .utils import emailSend, saveFile
 
 
-# Create User views here.
 
 def home(request):
 	context={}
 	return render(request, 'quiz/home.html', context)
+
+
+def type_login(request):
+	if(request.user.is_staff):
+		return redirect('quiz:admin_home')
+	else:
+		return redirect('quiz:user_home')
+
+# Create User views here.
+
+def user_home(request):
+	context={
+	}
+	return render(request, 'quiz/user_home.html', context)
 
 
 def register(request):
@@ -45,9 +59,28 @@ def assessment_detail(request, assessment_no):
 	return render(request, 'quiz/assessment_detail.html',context)
 
 def assessment_start(request, assessment_no):
-	# if request.method=='POST':
 	assessment=get_object_or_404(Assessment, pk=assessment_no)
 	questions=assessment.question_set.all()
+	print(questions)
+	now=datetime.datetime.now()
+	end=now+datetime.timedelta(minutes=assessment.duration)
+	if not timeRemaining.objects.filter(user=request.user, assessment=assessment).exists():
+		t=timeRemaining(user=request.user, timeStart=now, timeEnd=end, assessment=assessment)
+		t.save()
+	return redirect('quiz:assessment_start_question', assessment.pk, questions[0].pk)
+
+def assessment_start_question(request, assessment_no, question_no):
+	assessment=get_object_or_404(Assessment, pk=assessment_no)
+	question=get_object_or_404(Question, pk=question_no)
+	questions=assessment.question_set.all()
+	flag=0
+	next_question=question
+	for i in questions:
+		if(flag==1):
+			next_question=i
+			break
+		if i==question:
+			flag=1
 	now=datetime.datetime.now()
 	end=now+datetime.timedelta(minutes=assessment.duration)
 	if not timeRemaining.objects.filter(user=request.user, assessment=assessment).exists():
@@ -59,17 +92,50 @@ def assessment_start(request, assessment_no):
 	start_time=int(now.strftime("%s"))*1000
 	end_time=int(end.strftime("%s"))*1000
 
+
+	if request.method=='POST':
+
+		response=request.POST['optionsRadios']
+		response_object=Response(
+			user=request.user,
+			assessment=assessment,
+			question=question,
+			response=response
+		)
+		curr=datetime.datetime.now()
+		if(timezone.now()<end):
+			response_object.save()
+		else:
+			return HttpResponse("Time has expired!")
+
+		if(next_question==question):
+			return redirect('quiz:assessment_finish', assessment.pk)
+		return redirect('quiz:assessment_start_question', assessment.pk, next_question.pk)
+
 	context={
+		'questions':questions,
 		'assessment':assessment,
 		'start_time':start_time,
 		'end_time':end_time,
-		'questions':questions,
+		'question':question,
 	}
 	return render(request, 'quiz/assessment_start.html', context)
-
-
+def assessment_finish(request, assessment_no):
+	context={}
+	return HttpResponse("Assessment Finish")
 
 # Create Admin views here.
+
+@staff_member_required
+def admin_home(request):
+	user=request.user
+
+	status='Staff'
+	context={
+	'status':status,
+	'user':user,
+	}
+	return render(request, 'quiz/admin_home.html', context)
 
 
 @staff_member_required
@@ -203,3 +269,44 @@ def viewQuestion(request, question_no):
 		'question':question,
 	}
 	return render(request, 'quiz/view_question.html', context)
+
+@staff_member_required
+def evaluation(request):
+	context={
+		'assessments': Assessment.objects.all(),
+	}
+	return render(request,'quiz/evaluation.html', context)
+
+@staff_member_required
+def assessment_evaluate(request, assessment_no):
+	assessment=get_object_or_404(Assessment, pk=assessment_no)
+	responses=Response.objects.filter(assessment=assessment)
+	users_list=[]
+	for r in responses:
+		users_list.append(r.user)
+	users_list=list(set(users_list))
+	context={
+		'assessment':assessment,
+		'users': users_list,
+	}
+	return render(request,'quiz/assessment_evaluate.html', context)
+
+@staff_member_required
+def assessment_evaluate_user(request, assessment_no, user_no):
+	assessment=get_object_or_404(Assessment, pk=assessment_no)
+	user=get_object_or_404(User, pk=user_no)
+	questions=assessment.question_set.all()
+	responses=Response.objects.filter(assessment=assessment, user=user)
+	count=0
+	for response in responses:
+		if(response.question.solution==response.response):
+			count+=1
+	percent=float(count)/len(questions)*100
+
+	context={
+		'assessment':assessment,
+		'user': user,
+		'responses':responses,
+		'percent':percent,
+	}
+	return render(request,'quiz/assessment_evaluate_user.html', context)

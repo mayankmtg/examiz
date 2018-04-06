@@ -1,1 +1,61 @@
-<h1>Home</h1>
+{% extends 'quiz/base.html' %}
+{% load staticfiles %}
+{% block title%}Home{% endblock %}
+{% block body %}
+
+<br>
+<div class="container">
+	<div class="row">
+		<div class="col-sm-5 pull-left">
+		<div class="pull-right">
+		<br>
+			<img src="{% static 'quiz/images/logowithout.png' %}" height="320px">
+
+		</div>
+		</div>
+		<div class="col-sm-1">
+			&nbsp;
+		</div>
+		<div class="col-sm-6 pull-right">
+		<div class="pull-left">
+			<br>
+			<h1 style="font-size: 50px">Online<br> </h1>
+			<h1 style="font-size: 50px">Assessment<br></h1>
+			<h1>Portal of IIIT-Delhi</h1>
+			<br>
+			<a href="/login/" class="button">LogIn</a>
+			<a class="button" href="{% url 'quiz:register' %}">New User</a>
+		</div>
+		</div>
+	</div>
+	<br><br>
+	<hr>
+	<br><br>
+	<div class="col-xs-9">
+		<div class="jumbotron">
+			<h2>About the Portal</h2>
+			<p>This is a template showcasing the optional theme stylesheet included in Bootstrap. Use it as a starting point to create something more unique by building on or modifying it.</p>
+		</div>
+	</div>
+	<div class="col-xs-3">
+		<div class="list-group">
+			<a href="#" class="list-group-item active center">
+			Important Links
+			</a>
+			<a href="#" class="list-group-item center">Link 1</a>
+			<a href="#" class="list-group-item center">Link 2</a>
+			<a href="#" class="list-group-item center">Link 3</a>
+		</div>
+	</div>
+	<div class="col-xs-3">
+		<div class="list-group">
+			<a href="#" class="list-group-item active center">
+			Announcements
+			</a>
+			<a href="#" class="list-group-item center">No new Announcements</a>
+		</div>
+	</div>
+
+</div>
+
+{% endblock %}

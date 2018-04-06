@@ -8,9 +8,11 @@
     <meta name="author" content=""> -->
     <!-- <link rel="icon" href="../../favicon.ico"> -->
 
-    <title>Examiz-{% block title %}{% endblock %}</title>
+    <title>Assessments-{% block title %}{% endblock %}</title>
 
     {% load staticfiles %}
+    <link rel="icon" href="{% static 'quiz/images/logowith.png' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     <link href="{% static 'quiz/css/base.css' %}" rel="stylesheet">
@@ -27,7 +29,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="{% url 'quiz:home' %}">Examiz</a>
+          <a class="navbar-brand" href="{% url 'quiz:home' %}"><b>IIITD</b> | Assessments</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -41,14 +43,12 @@
 
     </div>
     <footer class="footer">
-    <center>
       <div class="container">
       <br>
-        <p style="color: #fff;">Developed By Mayank Mohindra<br>
-        @ <a style="color: #000;" href="http://iiitd.ac.in/">IIIT-Delhi</a>
+          <p>Developed By <a  style="color: #000;" href="https://github.com/mayankmtg">Mayank Mohindra</a> @ 
+          <a  style="color: #000;" href="https://iiitd.ac.in/">IIITD</a>
         <br></p>
       </div>
-    </center>
     </footer>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

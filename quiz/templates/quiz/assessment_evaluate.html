@@ -1,0 +1,25 @@
+{% extends 'quiz/base.html' %}
+{% load staticfiles %}
+{% block title%}Evaluation{% endblock %}
+{% block body %}
+<style type="text/css">
+	.panel{
+		height: 100px;
+		vertical-align: middle;
+	}
+</style>
+<div class="container">
+	<h3>Appearing Students</h3>
+	<hr>
+	{% for user in users %}
+		<div class="col-sm-3">
+			<a href="{% url 'quiz:assessment_evaluate_user' assessment.pk user.pk%}">
+			<div class="panel panel-default">
+				<h4><center>{{user}}</center></h4>
+			</div>
+			</a>
+		</div>
+	{% endfor %}
+</div>
+
+{% endblock %}

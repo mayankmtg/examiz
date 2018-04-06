@@ -1,0 +1,35 @@
+{% extends 'quiz/base.html' %}
+{% load staticfiles %}
+{% block title%}Home{% endblock %}
+{% block body %}
+
+
+
+<br><br>
+<h1 class="center">{{user.first_name}} {{user.last_name}}</h1>
+<hr>
+<div class="container">
+	<h3 class="center"><b>Staff </b> Status</h3> <br>
+	<center>
+	<div class="row">
+		<div class="col-lg-12">
+			<p>
+				<a href="{% url 'quiz:register_reqs' %}" class="btn btn-primary btn-sq-lg">
+					<i class="fa fa-user fa-5x"></i><br/>
+					Register Requests
+				</a>
+				<a href="{% url 'quiz:assessment' %}" class="btn btn-primary btn-sq-lg">
+					<i class="fa fa-pencil fa-5x"></i><br/>
+					Assessment
+				</a>
+				<a href="{% url 'quiz:evaluation' %}" class="btn btn-primary btn-sq-lg">
+					<i class="fa fa-percent fa-5x"></i><br/>
+					Evaluation
+				</a>
+			</p>
+		</div>
+	</div>
+	</center>
+</div>
+
+{% endblock %}

@@ -56,4 +56,13 @@ class timeRemaining(models.Model):
 	timeEnd=models.DateTimeField(blank=False)
 
 	def __str__(self):
-		return str(self.user)+str(timeStart)+str(timeEnd)
+		return str(self.user)+str(self.timeStart)+str(self.timeEnd)
+
+class Response(models.Model):
+	user=models.ForeignKey(User, on_delete=models.CASCADE)
+	assessment=models.ForeignKey(Assessment, on_delete=models.CASCADE)
+	question=models.ForeignKey(Question, on_delete=models.CASCADE)
+	response=models.CharField(max_length=2)
+
+	def __str__(self):
+		return str(self.user) + str(self.assessment.pk) + str(self.question.pk) 

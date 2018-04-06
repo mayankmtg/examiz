@@ -23,7 +23,9 @@
 	{{ assessment.description }}
 	<br>
 	<center>
-		<a href="{% url 'quiz:assessment_start' assessment.pk %}" class="btn btn-lg btn-success">Start Assessment</a>
+	<br><br><br>
+	<i>** warning: clicking will start your time</i><br><br>
+		<a href="{% url 'quiz:assessment_start' assessment.pk %}" class="btn btn-lg btn-success success">Start Assessment</a>
 	</center>
 </div>
 

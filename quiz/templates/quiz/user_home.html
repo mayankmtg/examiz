@@ -1,0 +1,28 @@
+{% extends 'quiz/base.html' %}
+{% load staticfiles %}
+{% block title%}Home{% endblock %}
+{% block body %}
+
+
+
+
+<br><br>
+<h1 class="center">{{user.first_name}} {{user.last_name}}</h1>
+<hr>
+<div class="container">
+	<h3 class="center"><b>Student </b> Status</h3> <br>
+	<center>
+	<div class="row">
+		<div class="col-lg-12">
+			<p>
+				<a href="{% url 'quiz:all_assessments' %}" class="btn btn-primary btn-sq-lg">
+					<i class="fa fa-user fa-5x"></i><br/>
+					View All <br>Assessments
+				</a>
+			</p>
+		</div>
+	</div>
+	</center>
+</div>
+
+{% endblock %}
