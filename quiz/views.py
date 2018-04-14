@@ -102,9 +102,16 @@ def assessment_start_question(request, assessment_no, question_no):
 			question=question,
 			response=response
 		)
+
+		try:
+			prev_res=Response.objects.get(question=question, assessment=assessment, user=request.user)
+			prev_res.response=response
+		except Response.DoesNotExist:
+			prev_res = response_object
+
 		curr=datetime.datetime.now()
 		if(timezone.now()<end):
-			response_object.save()
+			prev_res.save()
 		else:
 			return HttpResponse("Time has expired!")
 
