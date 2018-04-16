@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from .models import registerRequests, Assessment, Question, timeRemaining, Response
 from django.http import HttpResponse
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.contrib.admin.views.decorators import staff_member_required
 import datetime
@@ -21,36 +22,42 @@ def type_login(request):
 	else:
 		return redirect('quiz:user_home')
 
-# Create User views here.
-
-def user_home(request):
-	context={
-	}
-	return render(request, 'quiz/user_home.html', context)
-
-
 def register(request):
 	context={}
 	if request.method=='POST':
 		first_name=request.POST['first_name']
 		last_name=request.POST['last_name']
 		e_mail=request.POST['email']
+		if(unicode(e_mail) in User.objects.values_list('email')[0]):
+			return render(request,'quiz/announcement.html', context={'message':"E-mail Address already exists."})
+		print()
 		password=request.POST['password']
 		confirm_password=request.POST['confirm_password']
 		if(password==confirm_password):
 			r=registerRequests(first_name=first_name, last_name=last_name, e_mail=e_mail, password=password, confirm_password=confirm_password)
 			r.save()
-			return HttpResponse("Register request sent: <br> You will receive confirmation through email")
+			return render(request, 'quiz/announcement.html', context={'message':"Register request sent: You will receive confirmation through email"})
 		else:
-			return HttpResponse("Password Mismatch")
+			return render(request, 'quiz/announcement.html', context={'message':"Password Mismatch"})
 	return render(request, 'quiz/register.html', context)
 
+
+# Create User views here.
+
+@login_required(login_url='/login')
+def user_home(request):
+	context={
+	}
+	return render(request, 'quiz/user_home.html', context)
+
+@login_required(login_url='/login')
 def all_assessments(request):
 	context={
 		'all_assessments':Assessment.objects.all(),
 	}
 	return render(request, 'quiz/all_assessments.html', context)
 
+@login_required(login_url='/login')
 def assessment_detail(request, assessment_no):
 	assessment=get_object_or_404(Assessment, pk=assessment_no)
 	context={
@@ -58,6 +65,7 @@ def assessment_detail(request, assessment_no):
 	}
 	return render(request, 'quiz/assessment_detail.html',context)
 
+@login_required(login_url='/login')
 def assessment_start(request, assessment_no):
 	assessment=get_object_or_404(Assessment, pk=assessment_no)
 	questions=assessment.question_set.all()
@@ -69,6 +77,7 @@ def assessment_start(request, assessment_no):
 		t.save()
 	return redirect('quiz:assessment_start_question', assessment.pk, questions[0].pk)
 
+@login_required(login_url='/login')
 def assessment_start_question(request, assessment_no, question_no):
 	assessment=get_object_or_404(Assessment, pk=assessment_no)
 	question=get_object_or_404(Question, pk=question_no)
@@ -113,7 +122,7 @@ def assessment_start_question(request, assessment_no, question_no):
 		if(timezone.now()<end):
 			prev_res.save()
 		else:
-			return HttpResponse("Time has expired!")
+			return render(request, 'quiz/announcement.html', context={'message':"Time has expired!"})
 
 		if(next_question==question):
 			return redirect('quiz:assessment_finish', assessment.pk)
@@ -127,9 +136,23 @@ def assessment_start_question(request, assessment_no, question_no):
 		'question':question,
 	}
 	return render(request, 'quiz/assessment_start.html', context)
+
+@login_required(login_url='/login')
 def assessment_finish(request, assessment_no):
+	assessment=get_object_or_404(Assessment, pk=assessment_no)
+	questions=assessment.question_set.all()
+	context={
+		'assessment':assessment,
+		'firstq':questions[0]
+	}
+
+	return render(request, 'quiz/assessment_finish.html', context)
+
+
+@login_required(login_url='/login')
+def time_exp(request):
 	context={}
-	return HttpResponse("Assessment Finish")
+	return render(request, 'quiz/time_expired.html', context)
 
 # Create Admin views here.
 
@@ -169,7 +192,7 @@ def disapproveRegister(request, request_no):
 	email_message="Your Account request has been Rejected"
 	emailSend("IIITD-Online Quiz Account Activation Failed",req.e_mail,email_message)
 	req.delete()
-	return HttpResponse("Dis Approved")
+	return render(request, 'quiz/announcement.html', context={'message':"Dis Approved"})
 
 @staff_member_required
 def assessment(request):

@@ -131,6 +131,7 @@
 	    if (distance < 0) {
 	        clearInterval(x);
 	        document.getElementById("demo").innerHTML = "EXPIRED";
+	        window.location="{% url 'quiz:time_exp' %}";
 	    }
 	}, 1000);
 </script>

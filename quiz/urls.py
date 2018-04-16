@@ -19,6 +19,7 @@ urlpatterns = [
 	url(r'^assessment_detail/(?P<assessment_no>\d+)/start$',views.assessment_start, name='assessment_start'),
 	url(r'^assessment_detail/(?P<assessment_no>\d+)/(?P<question_no>\d+)$',views.assessment_start_question, name='assessment_start_question'),
 	url(r'^assessment_finish/(?P<assessment_no>\d+)/$',views.assessment_finish, name='assessment_finish'),
+	url(r'^time_exp/$',views.time_exp, name='time_exp'),
 	url(r'^reset_password/$', password_reset, name='reset_password'),
 	url(r'^reset_password/done/$', password_reset_done, name='password_reset_done'),
 	url(r'^reset_password/complete/$', password_reset_complete, name='password_reset_complete'),

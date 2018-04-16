@@ -50,8 +50,8 @@ class Question(models.Model):
 		return self.question
 
 class timeRemaining(models.Model):
-	user=models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
-	assessment=models.ForeignKey(Assessment,default=None, on_delete=models.CASCADE)
+	user=models.ForeignKey(User, on_delete=models.CASCADE)
+	assessment=models.ForeignKey(Assessment, on_delete=models.CASCADE)
 	timeStart=models.DateTimeField(blank=False)
 	timeEnd=models.DateTimeField(blank=False)
 

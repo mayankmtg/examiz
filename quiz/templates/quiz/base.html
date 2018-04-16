@@ -30,8 +30,12 @@
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand" href="{% url 'quiz:home' %}"><b>IIITD</b> | Assessments</a>
+
         </div>
         <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="{% url 'quiz:type_login' %}">Home</a></li>
+          </ul>
           <ul class="nav navbar-nav navbar-right">
             <li><a href="{% url 'quiz:logout' %}">Logout</a></li>
           </ul>

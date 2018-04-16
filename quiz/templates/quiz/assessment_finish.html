@@ -1,0 +1,26 @@
+{% extends 'quiz/base.html' %}
+{% load staticfiles %}
+{% block title%}Details{% endblock %}
+{% block body %}
+<style type="text/css">
+	.panel{
+		height: 100px;
+		vertical-align: middle;
+	}
+</style>
+<div class="container">
+	<center>
+		<h1>This was the last question</h1>
+		<br>
+		<h2>You can </h2>
+		<br>
+		<h3><a href="{% url 'quiz:assessment_start_question' assessment.pk firstq.pk %}">Go Back and review Answers</a></h3>
+		<br>
+		<h4>or</h4>
+		<br>
+		<h3><a href="{% url 'quiz:logout' %}">Logout</a></h3>
+		
+	</center>
+</div>
+
+{% endblock %}

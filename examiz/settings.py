@@ -35,12 +35,13 @@ SECRET_KEY = 'kadj3+5s1%kuz8)r@)e2!$g!m8z0&2tdi^he8n$9^og!$(_v!w'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['192.168.1.106', 'localhost']
+ALLOWED_HOSTS = ['192.168.1.106', 'localhost', '127.0.0.1']
 
 
 # Application definition
 
 INSTALLED_APPS = (
+    'sslserver',
     'quiz.apps.quizConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -97,6 +98,7 @@ DATABASES = {
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 LOGIN_REDIRECT_URL = '/type_login/'
 
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
@@ -113,5 +115,9 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
+
+
+# STATIC_ROOT =  os.path.join(BASE_DIR, 'static')
+# STATICFILES_DIRS = [os.path.join(STATIC_ROOT, 'static_server'),]
 
 STATIC_URL = '/static/'
