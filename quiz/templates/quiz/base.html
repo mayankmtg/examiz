@@ -37,7 +37,9 @@
             <li><a href="{% url 'quiz:type_login' %}">Home</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="{% url 'quiz:logout' %}">Logout</a></li>
+            {% if request.user.is_authenticated %}
+              <li><a href="{% url 'quiz:logout' %}">Logout</a></li>
+            {% endif %}
           </ul>
         </div>
       </div>
