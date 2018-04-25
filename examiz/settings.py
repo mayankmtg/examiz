@@ -15,8 +15,8 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 EMAIL_USE_TLS = True
 EMAIL_HOST='smtp.gmail.com'
-EMAIL_HOST_USER='mayankfake06@gmail.com'
-EMAIL_HOST_PASSWORD='mtgmtgmtg'
+EMAIL_HOST_USER='admin_olexam@iiitd.ac.in'
+EMAIL_HOST_PASSWORD='Sumit1234!'
 EMAIL_PORT=587
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -33,9 +33,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'kadj3+5s1%kuz8)r@)e2!$g!m8z0&2tdi^he8n$9^og!$(_v!w'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.106', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['192.168.1.106', 'localhost', '127.0.0.1', 'assessments.iiitd.edu.in']
 
 
 # Application definition

@@ -15,3 +15,13 @@ tests/coverage_html/
 tests/.coverage
 build/
 tests/report/
+
+# Database stuff
+*.sqlite3
+migrations/
+db.sqlite3
+
+# Other unwanted stuff
+.idea
+.DS_Store
+.DS_STORE

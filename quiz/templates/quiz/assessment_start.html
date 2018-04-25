@@ -28,54 +28,46 @@
 						<div class="panel-body">
 							<div class="container">
 							  <div>
-							        <div><b>Q: {{question.question}}</b></div>
-							        {% if question.question_image == None %}
-							        {% else %}
-							        	<div><img src="{{question.question_image}}" height="200"></div>
-							        {% endif %}
+						        <div><b>Q: {{question.question}}</b></div>
 							    <div class="radio">
 							      <label>
-							        <input type="radio" name="optionsRadios" id="optionsRadios1" value="A">
+
+							        {% if response == "A" %}
+							        	<input type="radio" name="optionsRadios" id="optionsRadios1" value="A" checked>
+							        {% else %}
+							        	<input type="radio" name="optionsRadios" id="optionsRadios1" value="A">
+							        {% endif %}
 							        {{question.option_a}}
-
-							        {% if question.option_a_image == None %}
-							        {% else %}
-							        	<div><img src="{{question.option_a_image}}" height="200"></div>
-							        {% endif %}
-
 							      </label>
 							    </div>
 							    <div class="radio">
 							      <label>
-							        <input type="radio" name="optionsRadios" id="optionsRadios2" value="B">
+							        {% if response == "B" %}
+							        	<input type="radio" name="optionsRadios" id="optionsRadios2" value="B" checked>
+							        {% else %}
+							        	<input type="radio" name="optionsRadios" id="optionsRadios2" value="B">
+							        {% endif %}
 							        {{question.option_b}}
-
-							        {% if question.option_b_image == None %}
-							        {% else %}
-							        	<div><img src="{{question.option_b_image}}" height="200"></div>
-							        {% endif %}
 							      </label>
 							    </div>
 							    <div class="radio">
 							      <label>
-							        <input type="radio" name="optionsRadios" id="optionsRadios3" value="C">
+							        {% if response == "C" %}
+							        	<input type="radio" name="optionsRadios" id="optionsRadios3" value="C" checked>
+							        {% else %}
+							        	<input type="radio" name="optionsRadios" id="optionsRadios3" value="C">
+							        {% endif %}
 							        {{question.option_c}}
-
-							        {% if question.option_c_image == None %}
-							        {% else %}
-							        	<div><img src="{{question.option_c_image}}" height="200"></div>
-							        {% endif %}
 							      </label>
 							    </div>
 							    <div class="radio">
 							      <label>
-							        <input type="radio" name="optionsRadios" id="optionsRadios4" value="D">
-							        {{question.option_d}}
-
-							        {% if question.option_d_image == None %}
+							        {% if response == "D" %}
+							        	<input type="radio" name="optionsRadios" id="optionsRadios4" value="D" checked>
 							        {% else %}
-							        	<div><img src="{{question.option_d_image}}" height="200"></div>
+							        	<input type="radio" name="optionsRadios" id="optionsRadios4" value="D">
 							        {% endif %}
+							        {{question.option_d}}
 							      </label>
 							    </div>
 						

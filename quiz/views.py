@@ -17,7 +17,7 @@ def home(request):
 
 
 def type_login(request):
-	if(request.user.is_staff):
+	if(request.user.is_staff or request.user.is_superuser):
 		return redirect('quiz:admin_home')
 	else:
 		return redirect('quiz:user_home')
@@ -53,7 +53,7 @@ def user_home(request):
 @login_required(login_url='/login')
 def all_assessments(request):
 	context={
-		'all_assessments':Assessment.objects.all(),
+		'all_assessments':Assessment.objects.filter(live=True),
 	}
 	return render(request, 'quiz/all_assessments.html', context)
 
@@ -63,11 +63,15 @@ def assessment_detail(request, assessment_no):
 	context={
 		'assessment':assessment,
 	}
+	if(not assessment.live):
+		return redirect('quiz:all_assessments')
 	return render(request, 'quiz/assessment_detail.html',context)
 
 @login_required(login_url='/login')
 def assessment_start(request, assessment_no):
 	assessment=get_object_or_404(Assessment, pk=assessment_no)
+	if(not assessment.live):
+		return redirect('quiz:all_assessments')
 	questions=assessment.question_set.all()
 	print(questions)
 	now=datetime.datetime.now()
@@ -80,6 +84,8 @@ def assessment_start(request, assessment_no):
 @login_required(login_url='/login')
 def assessment_start_question(request, assessment_no, question_no):
 	assessment=get_object_or_404(Assessment, pk=assessment_no)
+	if(not assessment.live):
+		return redirect('quiz:all_assessments')
 	question=get_object_or_404(Question, pk=question_no)
 	questions=assessment.question_set.all()
 	flag=0
@@ -100,6 +106,13 @@ def assessment_start_question(request, assessment_no, question_no):
 	end=t.timeEnd
 	start_time=int(now.strftime("%s"))*1000
 	end_time=int(end.strftime("%s"))*1000
+
+	try:
+		my_resp=Response.objects.get(question=question, assessment=assessment, user=request.user)
+		my_resp=str(my_resp.response)
+	except Response.DoesNotExist:
+		my_resp='E'
+
 
 
 	if request.method=='POST':
@@ -134,12 +147,15 @@ def assessment_start_question(request, assessment_no, question_no):
 		'start_time':start_time,
 		'end_time':end_time,
 		'question':question,
+		'response':my_resp
 	}
 	return render(request, 'quiz/assessment_start.html', context)
 
 @login_required(login_url='/login')
 def assessment_finish(request, assessment_no):
 	assessment=get_object_or_404(Assessment, pk=assessment_no)
+	if(not assessment.live):
+		return redirect('quiz:all_assessments')
 	questions=assessment.question_set.all()
 	context={
 		'assessment':assessment,
@@ -236,6 +252,15 @@ def viewAssessment(request, assessment_no):
 	}
 	return render(request, 'quiz/view_assessment.html', context)
 
+@staff_member_required
+def assessment_live(request, assessment_no):
+	assessment=get_object_or_404(Assessment, pk=assessment_no)
+	if(assessment.live):
+		assessment.live=False
+	else:
+		assessment.live=True
+	assessment.save()
+	return redirect('quiz:viewAssessment', assessment.pk)
 @staff_member_required
 def createQuestion(request, assessment_no):
 	assessment=get_object_or_404(Assessment, pk=assessment_no)

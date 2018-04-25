@@ -33,6 +33,7 @@ urlpatterns = [
 	url(r'^assessment/$',views.assessment, name='assessment'),
 	url(r'^create/$',views.createAssessment, name='createAssessment'),
 	url(r'^view_assessment/(?P<assessment_no>\d+)/$',views.viewAssessment, name='viewAssessment'),
+	url(r'^assessment_live/(?P<assessment_no>\d+)/$',views.assessment_live, name='assessment_live'),
 	url(r'^create_question/(?P<assessment_no>\d+)/$',views.createQuestion, name='createQuestion'),
 	url(r'^view_question/(?P<question_no>\d+)/$',views.viewQuestion, name='viewQuestion'),
 	url(r'^evaluation/$',views.evaluation, name='evaluation'),

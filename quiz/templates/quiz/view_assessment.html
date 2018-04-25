@@ -19,6 +19,14 @@
 		<div class="col-sm-4"><center><b>No. of Questions:</b>{{assessment.no_of_questions}}</center></div>
 		<div class="col-sm-4"><div class="pull-right"><b>Duration:</b>{{assessment.duration}}</div></div>
 	</div>
+
+	<center>
+		{% if assessment.live %}
+			<a href="{% url 'quiz:assessment_live' assessment.pk %}" class="btn btn-lg btn-success success">End Assessment</a>
+		{% else %}
+			<a href="{% url 'quiz:assessment_live' assessment.pk %}" class="btn btn-lg btn-success success">Go Live</a>
+		{% endif %}
+	</center>
 	<br>
 	{{ assessment.description }}
 	<br>

@@ -26,6 +26,7 @@ class Assessment(models.Model):
 	no_of_questions=models.IntegerField(null=False)
 	duration=models.IntegerField(null=False)
 	description=models.CharField(max_length=2000, blank=True)
+	live=models.BooleanField(default=False)
 
 	def __str__(self):
 		return self.name + " " + str(self.date)
@@ -39,11 +40,11 @@ class Question(models.Model):
 	option_b=models.CharField(max_length=250)
 	option_c=models.CharField(max_length=250)
 	option_d=models.CharField(max_length=250)
-	question_image=models.CharField(default=None, max_length=250,blank=True, null=True)
-	option_a_image=models.CharField(default=None, max_length=250,blank=True, null=True)
-	option_b_image=models.CharField(default=None, max_length=250,blank=True, null=True)
-	option_c_image=models.CharField(default=None, max_length=250,blank=True, null=True)
-	option_d_image=models.CharField(default=None, max_length=250,blank=True, null=True)
+	# question_image=models.CharField(default=None, max_length=250,blank=True, null=True)
+	# option_a_image=models.CharField(default=None, max_length=250,blank=True, null=True)
+	# option_b_image=models.CharField(default=None, max_length=250,blank=True, null=True)
+	# option_c_image=models.CharField(default=None, max_length=250,blank=True, null=True)
+	# option_d_image=models.CharField(default=None, max_length=250,blank=True, null=True)
 	solution=models.CharField(max_length=2)
 
 	def __str__(self):

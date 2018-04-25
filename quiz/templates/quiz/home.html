@@ -23,14 +23,19 @@
 			<h1 style="font-size: 50px">Assessment<br></h1>
 			<h1>Portal of IIIT-Delhi</h1>
 			<br>
-			<a href="/login/" class="button">LogIn</a>
-			<a class="button" href="{% url 'quiz:register' %}">New User</a>
+			{% if not request.user.is_authenticated %}
+				<a href="/login/" class="button">LogIn</a>
+				<a class="button" href="{% url 'quiz:register' %}">New User</a>
+			{% else %}
+				<a href="{% url 'quiz:type_login' %}" class="button">Home</a>
+			{% endif %}
 		</div>
 		</div>
 	</div>
 	<br><br>
 	<hr>
 	<br><br>
+	<!-- 
 	<div class="col-xs-9">
 		<div class="jumbotron">
 			<h2>About the Portal</h2>
@@ -55,7 +60,7 @@
 			<a href="#" class="list-group-item center">No new Announcements</a>
 		</div>
 	</div>
-
+ 	-->
 </div>
 
 {% endblock %}
