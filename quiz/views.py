@@ -28,6 +28,9 @@ def register(request):
 		first_name=request.POST['first_name']
 		last_name=request.POST['last_name']
 		e_mail=request.POST['email']
+		print(unicode(e_mail))
+		print(User.objects.values_list('email'))
+		print(unicode(e_mail) in User.objects.values_list('email')[0])
 		if(unicode(e_mail) in User.objects.values_list('email')[0]):
 			return render(request,'quiz/announcement.html', context={'message':"E-mail Address already exists."})
 		print()
@@ -194,7 +197,9 @@ def register_reqs(request):
 @staff_member_required
 def approveRegister(request, request_no):
 	req=get_object_or_404(registerRequests, pk=request_no)
-	userName=req.first_name[0]+req.last_name[0]+str(req.pk)
+	my_uname=req.e_mail
+	my_uname_array=my_uname.split('@')
+	userName=my_uname_array[0]
 	new_user=User.objects.create_user(userName,first_name=req.first_name, last_name=req.last_name, password=req.password, email=req.e_mail)
 	email_message="Your Account has been created:\nUsername = "+userName
 	emailSend("IIITD-Online Quiz 	Account Activation",req.e_mail,email_message)
