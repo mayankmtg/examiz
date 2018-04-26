@@ -274,26 +274,26 @@ def createQuestion(request, assessment_no):
 		option_b=request.POST['option_b']
 		option_c=request.POST['option_c']
 		option_d=request.POST['option_d']
-		question_image=None
-		option_a_image=None
-		option_b_image=None
-		option_c_image=None
-		option_d_image=None
-		print(request.FILES)
-		if request.FILES.get('question_image',False):
-			question_image=saveFile(assessment.name, request.FILES['question_image'])
+		# question_image=None
+		# option_a_image=None
+		# option_b_image=None
+		# option_c_image=None
+		# option_d_image=None
+		# print(request.FILES)
+		# if request.FILES.get('question_image',False):
+		# 	question_image=saveFile(assessment.name, request.FILES['question_image'])
 
-		if request.FILES.get('option_a_image',False):
-			option_a_image=saveFile(assessment.name, request.FILES['option_a_image'])
+		# if request.FILES.get('option_a_image',False):
+		# 	option_a_image=saveFile(assessment.name, request.FILES['option_a_image'])
 
-		if request.FILES.get('option_b_image',False):
-			option_b_image=saveFile(assessment.name, request.FILES['option_b_image'])
+		# if request.FILES.get('option_b_image',False):
+		# 	option_b_image=saveFile(assessment.name, request.FILES['option_b_image'])
 
-		if request.FILES.get('option_c_image',False):
-			option_c_image=saveFile(assessment.name, request.FILES['option_c_image'])
+		# if request.FILES.get('option_c_image',False):
+		# 	option_c_image=saveFile(assessment.name, request.FILES['option_c_image'])
 
-		if request.FILES.get('option_d_image',False):
-			option_d_image=saveFile(assessment.name, request.FILES['option_d_image'])
+		# if request.FILES.get('option_d_image',False):
+		# 	option_d_image=saveFile(assessment.name, request.FILES['option_d_image'])
 
 		solution=request.POST['solution']
 
@@ -304,11 +304,6 @@ def createQuestion(request, assessment_no):
 			option_b=option_b,
 			option_c=option_c,
 			option_d=option_d,
-			question_image=question_image,
-			option_a_image=option_a_image,
-			option_b_image=option_b_image,
-			option_c_image=option_c_image,
-			option_d_image=option_d_image,
 			solution=solution,
 		)
 		question_object.save()
