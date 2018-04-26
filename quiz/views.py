@@ -30,9 +30,9 @@ def register(request):
 		e_mail=request.POST['email']
 		print(unicode(e_mail))
 		print(User.objects.values_list('email'))
-		print(unicode(e_mail) in User.objects.values_list('email')[0])
-		if(unicode(e_mail) in User.objects.values_list('email')[0]):
-			return render(request,'quiz/announcement.html', context={'message':"E-mail Address already exists."})
+		for m in User.objects.values_list('email'):
+			if unicode(e_mail)==m[0]:
+				return render(request,'quiz/announcement.html', context={'message':"E-mail Address already exists."})
 		print()
 		password=request.POST['password']
 		confirm_password=request.POST['confirm_password']
