@@ -98,7 +98,12 @@
 	// Set the date we're counting down to
 	console.log({{start_time}});
 	console.log({{end_time}});
+	console.log({{curr_time}});
 	var countDownDate = {{end_time}};
+	var my_front_time=new Date().getTime();
+	var curr_time={{curr_time}};
+	var offset=my_front_time-curr_time;
+	
 
 	// Update the count down every 1 second
 	var x = setInterval(function() {
@@ -107,7 +112,7 @@
 	    var now = new Date().getTime();;
 	    
 	    // Find the distance between now an the count down date
-	    var distance = countDownDate - now;
+	    var distance = countDownDate - now + offset;
 	    
 	    // Time calculations for days, hours, minutes and seconds
 	    var days = Math.floor(distance / (1000 * 60 * 60 * 24));

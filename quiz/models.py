@@ -48,7 +48,7 @@ class Question(models.Model):
 	solution=models.CharField(max_length=2)
 
 	def __str__(self):
-		return self.question
+		return self.question.encode('utf-8')
 
 class timeRemaining(models.Model):
 	user=models.ForeignKey(User, on_delete=models.CASCADE)

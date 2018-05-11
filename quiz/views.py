@@ -144,11 +144,13 @@ def assessment_start_question(request, assessment_no, question_no):
 			return redirect('quiz:assessment_finish', assessment.pk)
 		return redirect('quiz:assessment_start_question', assessment.pk, next_question.pk)
 
+	
 	context={
 		'questions':questions,
 		'assessment':assessment,
 		'start_time':start_time,
 		'end_time':end_time,
+		'curr_time':int(datetime.datetime.now().strftime("%s"))*1000,
 		'question':question,
 		'response':my_resp
 	}
