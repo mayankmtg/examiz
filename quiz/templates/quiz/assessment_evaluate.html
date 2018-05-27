@@ -2,24 +2,40 @@
 {% load staticfiles %}
 {% block title%}Evaluation{% endblock %}
 {% block body %}
-<style type="text/css">
-	.panel{
-		height: 100px;
-		vertical-align: middle;
-	}
-</style>
+
 <div class="container">
 	<h3>Appearing Students</h3>
 	<hr>
-	{% for user in users %}
-		<div class="col-sm-3">
+	<p><a href="{% url 'quiz:assessment_evaluate_download' assessment.pk %}">Click here</a> to download marks.</p>
+	<p><a href="{% url 'quiz:assessment_evaluate_user_answers' assessment.pk %}">Click here</a> to download all student's responses.</p>
+	<table class="table table-bordered">
+	<thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Marks</th>
+      </tr>
+    </thead>
+    <tbody>
+	{% for user,marks in users_marks %}
+	<tr>
+      	<td>
 			<a href="{% url 'quiz:assessment_evaluate_user' assessment.pk user.pk%}">
-			<div class="panel panel-default">
-				<h4><center>{{user}}</center></h4>
-			</div>
+				{{user.first_name}} {{user.last_name}}
 			</a>
-		</div>
+		</td>
+		<td>
+			{{user.email}}
+		</td>
+		<td>
+			{{marks}}
+		</td>
+	</tr>
+
 	{% endfor %}
+</tbody>
+  </table>
 </div>
 
 {% endblock %}
+

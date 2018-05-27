@@ -1,6 +1,5 @@
 from django.shortcuts import render, get_object_or_404
 from .models import registerRequests, Assessment, Question, timeRemaining, Response
-from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
@@ -8,7 +7,8 @@ from django.contrib.admin.views.decorators import staff_member_required
 import datetime
 from django.utils import timezone
 from .utils import emailSend, saveFile
-
+import xlsxwriter, zipfile, os, shutil
+from django.http import HttpResponse, HttpResponseRedirect
 
 
 def home(request):
@@ -342,9 +342,21 @@ def assessment_evaluate(request, assessment_no):
 	for r in responses:
 		users_list.append(r.user)
 	users_list=list(set(users_list))
+	marks=[]
+	for user in users_list:
+		user_responses=Response.objects.filter(assessment=assessment, user=user)
+		count = 0
+		for response in user_responses:
+			if(response.question.solution==response.response):
+				count+=1
+		marks.append(count)
+	users_marks=[]
+	for u in range(len(users_list)):
+		user_temp=[users_list[u],marks[u]]
+		users_marks.append(user_temp)
 	context={
 		'assessment':assessment,
-		'users': users_list,
+		'users_marks': users_marks,
 	}
 	return render(request,'quiz/assessment_evaluate.html', context)
 
@@ -367,3 +379,73 @@ def assessment_evaluate_user(request, assessment_no, user_no):
 		'percent':percent,
 	}
 	return render(request,'quiz/assessment_evaluate_user.html', context)
+@staff_member_required
+def assessment_evaluate_download(request,assessment_no):
+	assessment=get_object_or_404(Assessment, pk=assessment_no)
+	responses=Response.objects.filter(assessment=assessment)
+	users_list=[]
+	for r in responses:
+		users_list.append(r.user)
+	users_list=list(set(users_list))
+	excel=[["S.No.","Name","Email","Marks"]]
+	num=1
+	for u in users_list:
+		user_responses=Response.objects.filter(assessment=assessment, user=u)
+		count = 0
+		for response in user_responses:
+			if(response.question.solution==response.response):
+				count+=1
+		user_data=[num,str(u.first_name + " " + u.last_name),str(u.email),count]
+		excel.append(user_data)
+		num=num+1
+	response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+	response['Content-Disposition'] = 'attachment; filename="marks.xlsx"'
+	workbook  = xlsxwriter.Workbook(response, {'in_memory': True})
+	worksheet = workbook.add_worksheet()
+	for i in range(len(excel)):
+		for j in range(len(excel[0])):
+			worksheet.write(i, j, excel[i][j])
+	workbook.close()
+	return response
+@staff_member_required
+def assessment_evaluate_user_answers(request,assessment_no):
+	assessment=get_object_or_404(Assessment, pk=assessment_no)
+	responses=Response.objects.filter(assessment=assessment)
+	users_list=[]
+	for r in responses:
+		users_list.append(r.user)
+	users_list=list(set(users_list))
+	name=assessment.name
+	path='/home/iiitd/Assessments/examiz2/result/'+name
+	try:
+		shutil.rmtree(path,ignore_errors=True)
+	except:
+		pass
+	try:
+		os.remove(name+'.zip')
+	except:
+		pass
+	os.makedirs(path)
+	for user in users_list:
+		excel=[[str(user.first_name)+" "+str(user.last_name)," "," "],["Question","Student Response","Solution"]]
+		user_name=str(user.first_name) + "_" +str(user.last_name)
+		workbook = xlsxwriter.Workbook(path+'/'+user_name+".xlsx")
+		worksheet = workbook.add_worksheet()
+		user_responses=Response.objects.filter(assessment=assessment, user=user)
+		for res in user_responses:
+			temp=[]
+			temp.append(res.question.question)
+			temp.append(res.response)
+			temp.append(res.question.solution)
+			excel.append(temp)
+		for i in range(len(excel)):
+			for j in range(len(excel[0])):
+				worksheet.write(i, j, excel[i][j])
+		workbook.close()
+	shutil.make_archive(name, 'zip', path)
+	filename=name+'.zip'
+	path2file='/home/iiitd/Assessments/examiz2/'+name+'.zip'
+	zip_file = open(path2file, 'r')
+	response = HttpResponse(zip_file, content_type='application/force-download')
+	response['Content-Disposition'] = 'attachment; filename="%s"' % (filename)
+	return response

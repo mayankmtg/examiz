@@ -38,6 +38,8 @@ urlpatterns = [
 	url(r'^view_question/(?P<question_no>\d+)/$',views.viewQuestion, name='viewQuestion'),
 	url(r'^evaluation/$',views.evaluation, name='evaluation'),
 	url(r'^evaluation/(?P<assessment_no>\d+)/$',views.assessment_evaluate, name='assessment_evaluate'),
+	url(r'^evaluation/(?P<assessment_no>\d+)/download$',views.assessment_evaluate_download, name='assessment_evaluate_download'),
+	url(r'^evaluation/(?P<assessment_no>\d+)/download_zip$',views.assessment_evaluate_user_answers, name='assessment_evaluate_user_answers'),
 	url(r'^evaluation/(?P<assessment_no>\d+)/(?P<user_no>\d+)/$',views.assessment_evaluate_user, name='assessment_evaluate_user'),
 
 ]	
