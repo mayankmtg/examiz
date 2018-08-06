@@ -1,0 +1,27 @@
+{% extends 'quiz/base.html' %}
+{% load staticfiles %}
+{% block title%}Evaluation{% endblock %}
+{% block body %}
+
+
+<div class="container">
+	<h3>Accecpted requests</h3>
+	<table class="table">
+	<thead>
+      <tr>
+        <th>Name</th>
+      </tr>
+    </thead>
+    <tbody>
+    	{% for user in approved_requests %}
+    	<tr>
+    		<td>{{user.first_name}} {{user.last_name}}</td>
+    	</tr>
+    	{% endfor %}
+    </tbody>
+    <br><br><br>
+
+
+</div>
+{% endblock %}
+

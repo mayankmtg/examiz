@@ -1,0 +1,32 @@
+{% extends 'quiz/base.html' %}
+{% load staticfiles %}
+{% block title%}Evaluation{% endblock %}
+{% block body %}
+
+
+<div class="container">
+	<h3>Pending requests</h3>
+	To accept all requests<a href="{% url 'quiz:accept_all_test_request' assessment.pk%}"> Click here.</a><br>
+        To look at all accepted requests <a href="{% url 'quiz:accepted_test_request' assessment.pk%}">Click here.</a>
+	<table class="table table-bordered">
+	<thead>
+      <tr>
+        <th>Name</th>
+        <th>Accept</th>
+        <th>Decline</th>
+      </tr>
+    </thead>
+    <tbody>
+    	{% for user in pending_requests %}
+    	<tr>
+    		<td>{{user.first_name}} {{user.last_name}}</td>
+            
+    		<td><a href="{% url 'quiz:accept_test_request' assessment.pk user.pk%}">Accept</a></td>
+    		<td><a href="{% url 'quiz:reject_test_request' assessment.pk user.pk%}">Decline</a></td>
+    	</tr>
+    	{% endfor %}
+    </tbody>
+
+</div>
+{% endblock %}
+

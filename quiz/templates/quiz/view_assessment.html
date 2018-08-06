@@ -9,6 +9,7 @@
 	}
 </style>
 <div class="container">
+	<a href="{% url 'quiz:editAssessment' assessment.pk %}" class="btn btn-lg btn-success success">Edit Details</a>
 	<center>
 		<h3>{{assessment.name}}</h3>
 		<h5>{{assessment.date}}</h5>

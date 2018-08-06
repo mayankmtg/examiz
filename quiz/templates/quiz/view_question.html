@@ -8,20 +8,88 @@
 		<h5>{{question.assessment.date}}</h5>
 	</center>
 	<br>
+	<a href="{% url 'quiz:deleteQuestion' question.pk  %}"><button>Delete Question</button></a>
+	<br><br>
 	{{ question.question }}
 	<br>
+	{% if question.question_image == None %}
+	{% else %}
+	<div><img src="{{question.question_image}}" height="200"></div>
+	{% endif %}
 	<div class="radio">
 		<label><input type="radio" name="option_opt" disabled>{{question.option_a}}</label>
 	</div>
+	{% if question.option_a_image == None %}
+	{% else %}
+	<div><img src="{{question.option_a_image}}" height="200"></div>
+	{% endif %}
 	<div class="radio">
 		<label><input type="radio" name="option_opt" disabled>{{question.option_b}}</label>
 	</div>
+	{% if question.option_b_image == None %}
+	{% else %}
+	<div><img src="{{question.option_b_image}}" height="200"></div>
+	{% endif %}
+	{% if question.option_c == '' %}
+	{% else %}
 	<div class="radio">
 		<label><input type="radio" name="option_opt" disabled>{{question.option_c}}</label>
 	</div>
+	{% endif %}
+	{% if question.option_c_image == None %}
+	{% else %}
+	<div><img src="{{question.option_c_image}}" height="200"></div>
+	{% endif %}
+	{% if question.option_d == '' %}
+	{% else %}
 	<div class="radio">
 		<label><input type="radio" name="option_opt" disabled>{{question.option_d}}</label>
 	</div>
+	{% endif %}
+	{% if question.option_d_image == None %}
+	{% else %}
+	<div><img src="{{question.option_d_image}}" height="200"></div>
+	{% endif %}
+	{% if question.option_e == '' %}
+	{% else %}
+	<div class="radio">
+		<label><input type="radio" name="option_opt" disabled>{{question.option_e}}</label>
+	</div>
+	{% endif %}
+	{% if question.option_e_image == None %}
+	{% else %}
+	<div><img src="{{question.option_e_image}}" height="200"></div>
+	{% endif %}
+	{% if question.option_f == '' %}
+	{% else %}
+	<div class="radio">
+		<label><input type="radio" name="option_opt" disabled>{{question.option_f}}</label>
+	</div>
+	{% endif %}
+	{% if question.option_f_image == None %}
+	{% else %}
+	<div><img src="{{question.option_f_image}}" height="200"></div>
+	{% endif %}
+	{% if question.option_g == '' %}
+	{% else %}
+	<div class="radio">
+		<label><input type="radio" name="option_opt" disabled>{{question.option_g}}</label>
+	</div>
+	{% endif %}
+	{% if question.option_g_image == None %}
+	{% else %}
+	<div><img src="{{question.option_g_image}}" height="200"></div>
+	{% endif %}
+	{% if question.option_h == '' %}
+	{% else %}
+	<div class="radio">
+		<label><input type="radio" name="option_opt" disabled>{{question.option_h}}</label>
+	</div>
+	{% endif %}
+	{% if question.option_h_image == None %}
+	{% else %}
+	<div><img src="{{question.option_h_image}}" height="200"></div>
+	{% endif %}
 	<br>
 	<h4><b>{{question.solution}}</b></h4>
 </div>

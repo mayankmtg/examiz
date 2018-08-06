@@ -1,0 +1,27 @@
+{% extends 'quiz/base.html' %}
+{% load staticfiles %}
+{% block title%}Evaluation{% endblock %}
+{% block body %}
+
+
+<div class="container">
+	<h3>Apply for an assessment</h3>
+	<table class="table table-bordered">
+	<thead>
+      <tr>
+        <th>Name</th>
+        <th>Apply</th>
+      </tr>
+    </thead>
+    <tbody>
+    	{% for test in all_assessments %}
+    	<tr>
+    		<td>{{test.name}} </td>
+    		<td><a href="{% url 'quiz:apply_request' test.pk%}">Apply</a></td>
+    	</tr>
+    	{% endfor %}
+    </tbody>
+
+</div>
+{% endblock %}
+

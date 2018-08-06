@@ -28,8 +28,16 @@
 						<div class="panel-body">
 							<div class="container">
 							  <div>
+							  	{% if question.question_image == None %}
+							        {% else %}
+							        	<div><img src="{{question.question_image}}" height="200"></div>
+							        {% endif %}
 						        <div><b>Q: {{question.question}}</b></div>
 							    <div class="radio">
+							    	{% if question.option_a_image == None %}
+							        {% else %}
+							        	<div><img src="{{question.option_a_image}}" height="200"></div>
+							        {% endif %}
 							      <label>
 
 							        {% if response == "A" %}
@@ -41,6 +49,10 @@
 							      </label>
 							    </div>
 							    <div class="radio">
+							    	{% if question.option_b_image == None %}
+							        {% else %}
+							        	<div><img src="{{question.option_b_image}}" height="200"></div>
+							        {% endif %}
 							      <label>
 							        {% if response == "B" %}
 							        	<input type="radio" name="optionsRadios" id="optionsRadios2" value="B" checked>
@@ -51,6 +63,12 @@
 							      </label>
 							    </div>
 							    <div class="radio">
+							    	{% if question.option_c_image == None %}
+							        {% else %}
+							        	<div><img src="{{question.option_c_image}}" height="200"></div>
+							        {% endif %}
+							        {% if question.option_c == '' %}
+							        {% else %}
 							      <label>
 							        {% if response == "C" %}
 							        	<input type="radio" name="optionsRadios" id="optionsRadios3" value="C" checked>
@@ -59,8 +77,16 @@
 							        {% endif %}
 							        {{question.option_c}}
 							      </label>
+							      {% endif %}
 							    </div>
+
 							    <div class="radio">
+							    	{% if question.option_d_image == None %}
+							        {% else %}
+							        	<div><img src="{{question.option_d_image}}" height="200"></div>
+							        {% endif %}
+							        {% if question.option_d == '' %}
+							        {% else %}
 							      <label>
 							        {% if response == "D" %}
 							        	<input type="radio" name="optionsRadios" id="optionsRadios4" value="D" checked>
@@ -69,6 +95,80 @@
 							        {% endif %}
 							        {{question.option_d}}
 							      </label>
+							      {% endif %}
+							    </div>
+
+							    <div class="radio">
+							    	{% if question.option_e_image == None %}
+							        {% else %}
+							        	<div><img src="{{question.option_e_image}}" height="200"></div>
+							        {% endif %}
+							        {% if question.option_e == '' %}
+							        {% else %}
+							      <label>
+							        {% if response == "E" %}
+							        	<input type="radio" name="optionsRadios" id="optionsRadios4" value="E" checked>
+							        {% else %}
+							        	<input type="radio" name="optionsRadios" id="optionsRadios4" value="E">
+							        {% endif %}
+							        {{question.option_e}}
+							      </label>
+							      {% endif %}
+							    </div>
+
+							    <div class="radio">
+							    	{% if question.option_f_image == None %}
+							        {% else %}
+							        	<div><img src="{{question.option_f_image}}" height="200"></div>
+							        {% endif %}
+							        {% if question.option_f == '' %}
+							        {% else %}
+							      <label>
+							        {% if response == "F" %}
+							        	<input type="radio" name="optionsRadios" id="optionsRadios4" value="F" checked>
+							        {% else %}
+							        	<input type="radio" name="optionsRadios" id="optionsRadios4" value="F">
+							        {% endif %}
+							        {{question.option_f}}
+							      </label>
+							      {% endif %}
+							    </div>
+
+							    <div class="radio">
+							    	{% if question.option_g_image == None %}
+							        {% else %}
+							        	<div><img src="{{question.option_g_image}}" height="200"></div>
+							        {% endif %}
+							        {% if question.option_g == '' %}
+							        {% else %}
+							      <label>
+							        {% if response == "G" %}
+							        	<input type="radio" name="optionsRadios" id="optionsRadios4" value="G" checked>
+							        {% else %}
+							        	<input type="radio" name="optionsRadios" id="optionsRadios4" value="G">
+							        {% endif %}
+							        {{question.option_g}}
+							      </label>
+							      {% endif %}
+							    </div>
+
+
+							    <div class="radio">
+							    	{% if question.option_h_image == None %}
+							        {% else %}
+							        	<div><img src="{{question.option_h_image}}" height="200"></div>
+							        {% endif %}
+							        {% if question.option_h == '' %}
+							        {% else %}
+							      <label>
+							        {% if response == "h" %}
+							        	<input type="radio" name="optionsRadios" id="optionsRadios4" value="H" checked>
+							        {% else %}
+							        	<input type="radio" name="optionsRadios" id="optionsRadios4" value="H">
+							        {% endif %}
+							        {{question.option_h}}
+							      </label>
+							      {% endif %}
 							    </div>
 						
 							  </div>
@@ -78,7 +178,7 @@
 					</div>
 				</div>
 				<br><br>
-				<center><input type="submit" class="btn btn-lg btn-danger success" name="Submit"></center>
+				<center><input type="submit" class="btn btn-lg btn-danger success" name="Submit" id="Submit" disabled="disabled"></center>
 				<br><br>
 				<br><br>
 				<br><br>
@@ -128,9 +228,17 @@
 	    if (distance < 0) {
 	        clearInterval(x);
 	        document.getElementById("demo").innerHTML = "EXPIRED";
-	        window.location="{% url 'quiz:time_exp' %}";
+	        window.location="{% url 'quiz:time_exp' assessment.pk %}";
 	    }
 	}, 1000);
 </script>
+<script type="text/javascript">
+setInterval(
+function check() {
+	if ($('input[name=optionsRadios]:checked').length > 0) {
+    document.getElementById("Submit").removeAttribute("disabled");
+}
+},100)
 
+</script>
 {% endblock %}

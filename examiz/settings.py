@@ -33,9 +33,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'kadj3+5s1%kuz8)r@)e2!$g!m8z0&2tdi^he8n$9^og!$(_v!w'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['192.168.1.106', 'localhost', '127.0.0.1', 'assessments.iiitd.edu.in']
+ALLOWED_HOSTS = ['192.168.1.106', 'localhost', '127.0.0.1', 'assessments.iiitd.edu.in','0.0.0.0']
 
 
 # Application definition
@@ -110,7 +110,7 @@ LOGIN_REDIRECT_URL = '/type_login/'
 
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = '/home/iiitd/Assessments/examiz2/media/'
 
 LANGUAGE_CODE = 'en-us'
 
@@ -131,4 +131,4 @@ USE_TZ = True
 # STATICFILES_DIRS = [os.path.join(STATIC_ROOT, 'static_server'),]
 
 STATIC_URL = '/static/'
-STATIC_ROOT=os.path.join(BASE_DIR, 'static/')
+STATIC_ROOT= '/home/iiitd/Assessments/examiz2/static/'
