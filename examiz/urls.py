@@ -15,8 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-
+import django.contrib.auth
 urlpatterns = [
 	url(r'^', include('quiz.urls', namespace="quiz")),
-    url(r'^admin/', include(admin.site.urls)),
+	url(r'^admin/', include(admin.site.urls)),
+	url('^', include('django.contrib.auth.urls')),
 ]
