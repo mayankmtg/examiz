@@ -7,7 +7,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 import datetime
 from django.utils import timezone
 from .utils import emailSend, saveFile
-import xlsxwriter, zipfile, os, shutil,random
+import xlsxwriter, zipfile, os, shutil, random, urllib, xlrd
 from django.http import HttpResponse, HttpResponseRedirect
 
 
@@ -307,6 +307,23 @@ def viewAssessmentStudents(request,assessment_no):
 	'approved_request':assessment.accecpted_requests.all(),
 	'pending_requests':assessment.pending_requests.all(),
 	}
+	if request.method=='POST':
+		if request.FILES.get('excelfile',False):
+			File=saveFile(assessment.name, request.FILES['excelfile'])
+			path="/home/iiitd/Assessments/examiz2"
+			print(urllib.unquote(File))		
+			book = xlrd.open_workbook(path+urllib.unquote(File))
+			sh = book.sheet_by_index(0)
+			for rx in range(sh.nrows):
+				for i in sh.row(rx):
+					if str(i.value).find("@")>0:
+						print (str(i.value))
+						aUser=User.objects.filter(email=str(i.value))
+						if len(aUser)>0:
+							assessment.pending_requests.remove(aUser[0])
+							assessment.accecpted_requests.add(aUser[0])
+			os.remove(path+urllib.unquote(File))
+
 	return render(request,'quiz/viewAssessmentStudents.html',context)
 
 @staff_member_required

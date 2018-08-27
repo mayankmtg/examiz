@@ -6,6 +6,19 @@
 
 <div class="container">
 	<h3>Pending requests</h3>
+	<form class="form-horizontal" method="POST" action=""  enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label class="control-label col-sm-4">Upload excel sheet to accept requests:-</label>
+                <div class="col-sm-8">
+                    <input type="file" name="excelfile">
+                        <div class="col-sm-6">
+                            <button type="submit">Submit</button>
+                        </div>
+                </div>
+           </div>
+    </form>
+            <br>
 	To accept all requests<a href="{% url 'quiz:accept_all_test_request' assessment.pk%}"> Click here.</a><br>
         To look at all accepted requests <a href="{% url 'quiz:accepted_test_request' assessment.pk%}">Click here.</a>
 	<table class="table table-bordered">
