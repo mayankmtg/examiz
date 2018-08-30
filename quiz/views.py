@@ -37,9 +37,14 @@ def register(request):
 		password=request.POST['password']
 		confirm_password=request.POST['confirm_password']
 		if(password==confirm_password):
-			r=registerRequests(first_name=first_name, last_name=last_name, e_mail=e_mail, password=password, confirm_password=confirm_password)
-			r.save()
-			return render(request, 'quiz/announcement.html', context={'message':"Register request sent: You will receive confirmation through email"})
+			my_uname=e_mail
+			my_uname_array=my_uname.split('@')
+			userName=my_uname_array[0]
+			new_user=User.objects.create_user(userName,first_name=first_name, last_name=last_name, password=password, email=e_mail)
+			email_message="Your Account has been created:\nUsername = "+userName
+			emailSend("IIITD-Online Quiz 	Account Activation",e_mail,email_message)
+			new_user.save()
+			return render(request, 'quiz/announcement.html', context={'message':"User Created: Check your Email"})
 		else:
 			return render(request, 'quiz/announcement.html', context={'message':"Password Mismatch"})
 	return render(request, 'quiz/register.html', context)
@@ -221,7 +226,7 @@ def assessment_finish_submit(request,assessment_no):
 		pass
 	elif assessment.conformation_mail==1:
 		email_message="Your response to " + assessment.name + " is recorded. You will hear about your scores shortly."
-		emailSend("IIITD Exam Protal",request.user.email,email_message)
+		emailSend("IIITD Exam Portal",request.user.email,email_message)
 	elif assessment.conformation_mail==2:
 		user_responses=Response.objects.filter(assessment=assessment, user=request.user)
 		score=0
@@ -229,7 +234,7 @@ def assessment_finish_submit(request,assessment_no):
 			if(response.question.solution==response.response):
 				score=score+1
 		email_message="You scored " +str(score)+" in "+ assessment.name + " out of "+ assessment.no_of_questions
-		emailSend("IIITD Exam Protal",request.user.email,email_message)
+		emailSend("IIITD Exam Portal",request.user.email,email_message)
 	return redirect('quiz:home')
 
 @login_required(login_url='/login')
@@ -241,7 +246,7 @@ def time_exp(request,assessment_no):
 		pass
 	elif assessment.conformation_mail==1:
 		email_message="Your response to " + assessment.name + " is recorded. You will hear about your scores shortly."
-		emailSend("IIITD Exam Protal",request.user.email,email_message)
+		emailSend("IIITD Exam Portal",request.user.email,email_message)
 	elif assessment.conformation_mail==2:
 		user_responses=Response.objects.filter(assessment=assessment, user=request.user)
 		score=0
@@ -249,7 +254,7 @@ def time_exp(request,assessment_no):
 			if(response.question.solution==response.response):
 				score=score+1
 		email_message="You scored " +str(score)+" in "+ assessment.name + " out of "+ assessment.no_of_questions
-		emailSend("IIITD Exam Protal",request.user.email,email_message)
+		emailSend("IIITD Exam Portal",request.user.email,email_message)
 	context={}
 	return render(request, 'quiz/time_expired.html', context)
 # Create Admin views here.
@@ -314,6 +319,7 @@ def viewAssessmentStudents(request,assessment_no):
 			print(urllib.unquote(File))		
 			book = xlrd.open_workbook(path+urllib.unquote(File))
 			sh = book.sheet_by_index(0)
+			temp_name=""
 			for rx in range(sh.nrows):
 				for i in sh.row(rx):
 					if str(i.value).find("@")>0:
@@ -322,6 +328,24 @@ def viewAssessmentStudents(request,assessment_no):
 						if len(aUser)>0:
 							assessment.pending_requests.remove(aUser[0])
 							assessment.accecpted_requests.add(aUser[0])
+						else:
+							temp_name=temp_name.split(' ')
+							tmp=''
+							for i1 in range(1,len(temp_name)):
+								tmp=temp_name[i1]+" "
+							my_uname=str(i.value)
+							my_uname_array=my_uname.split('@')
+							userName=my_uname_array[0]
+							s = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()?"
+							passlen = 8
+							p =  "".join(random.sample(s,passlen ))
+							new_user=User.objects.create_user(userName,first_name=temp_name[0], last_name=tmp, password=p, email=str(i.value))
+							email_message="Your Account has been created:\nUsername = "+userName + ". Your password is "+ p +" ."
+							emailSend("IIITD-Online Quiz 	Account Activation",str(i.value),email_message)
+							new_user.save()
+							assessment.accecpted_requests.add(new_user)
+					else:
+						temp_name=str(i.value)
 			os.remove(path+urllib.unquote(File))
 
 	return render(request,'quiz/viewAssessmentStudents.html',context)
@@ -332,6 +356,8 @@ def accept_test_request(request,assessment_no,user_no):
 	user=get_object_or_404(User, pk=user_no)
 	assessment.pending_requests.remove(user)
 	assessment.accecpted_requests.add(user)
+	email_message="You can now approved to give "+assessment.name
+	emailSend("IIITD Exam Portal",user.email,email_message)
 	return redirect('quiz:viewAssessmentStudents', assessment.pk)
 
 @staff_member_required
@@ -357,6 +383,8 @@ def accept_all_test_request(request,assessment_no):
 	for user in pending_requests:
 		assessment.pending_requests.remove(user)
 		assessment.accecpted_requests.add(user)
+		email_message="You can now approved to give "+assessment.name
+		emailSend("IIITD Exam Portal",user.email,email_message)
 	return redirect('quiz:viewAssessmentStudents', assessment.pk)
 
 @staff_member_required
